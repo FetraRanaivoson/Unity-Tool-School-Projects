@@ -6,8 +6,6 @@ using UnityEngine;
 public class MovementControllerS : MonoBehaviour
 {
     [HideInInspector] public int Speed { get; set; } = 2;
-    
-    //public GameObject player;
 
     [HideInInspector] public List<GameObject> wayPoints;
     public List<GameObject> WayPoints => wayPoints;
@@ -21,18 +19,14 @@ public class MovementControllerS : MonoBehaviour
         wayPoints.Clear();
     }
     
-
-    // Start is called before the first frame update
+    
     void Start()
     {
-        
     }
 
-    //private int nextPoint = 0;
-    // Update is called once per frame
+
     void Update()
     {
-
     }
 
     private void OnDrawGizmos()

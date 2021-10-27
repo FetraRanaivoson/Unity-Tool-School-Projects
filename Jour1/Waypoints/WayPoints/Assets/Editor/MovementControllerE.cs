@@ -33,61 +33,26 @@ public class MovementControllerE : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        
         if (GUI.changed)
             EditorUtility.SetDirty(target);
         
-        //Debug.Log("OnInspectorGUI");
         //Display movement parameter
-        //GUILayout.Label("Movement Controller Params");
         EditorGUILayout.LabelField("Movement Controller Params");
-        movementControllerScript.Speed = EditorGUILayout.IntField("Speed", movementControllerScript.Speed);
+        movementControllerScript.GetComponent<Player>().speed = EditorGUILayout.IntField("Speed", movementControllerScript.GetComponent<Player>().speed); //GUILayout.Label("Movement Controller Params");
+        //movementControllerScript.GetComponent<Player>().speed = playerSpeed;         
+       
+        WayPointsGUI();
+        DropZoneGUI();
 
-        //Display list of wayPoints on the inspector
-        //GUILayout.Label("WayPoints");
-        EditorGUILayout.LabelField("WayPoints");
-        EditorGUILayout.BeginVertical();
-        // if (movementControllerScript.WayPoints != null && movementControllerScript.WayPointsCount > 0)
-        // {
-        //     for (int i = 0; i < movementControllerScript.WayPointsCount; i++)
-        //     {
-        //         movementControllerScript.WayPoints[i] = EditorGUILayout.ObjectField(movementControllerScript.WayPoints[i], typeof(GameObject), true) as GameObject;
-        //     }
-        // }
-        if (WayPoints != null && WayPoints.Count > 0)
-        {
-            for (int i = 0; i < WayPoints.Count; i++)
-            {
-                EditorGUILayout.BeginHorizontal();
-                WayPoints[i] = EditorGUILayout.ObjectField(WayPoints[i], typeof(GameObject), true) as GameObject;
-                GUILayout.Button("^");
-                GUILayout.Button("v");
-                if (GUILayout.Button("-"))
-                {
-                     DestroyImmediate(WayPoints[i]);
-                     WayPoints.Remove(WayPoints[i]);
-                }
-                EditorGUILayout.EndHorizontal();
-            }
-        }
-        EditorGUILayout.EndVertical();
-        
-     
-        
-        
-        //Draw the drop zone
-        Rect dropZone = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, 5 * EditorGUIUtility.singleLineHeight);
-        GUI.Box(dropZone, "Add wayPoint");
-        
         //Clear wayPoints button
         if (GUILayout.Button("Clear"))
-        {
-            //movementControllerScript.ClearWayPoint();
-            //wayPoints.Clear();
             WayPoints.Clear();
-            //nextPoint = 0;
-        }
-        
+
+        ManageDragEvents();
+    }
+
+    private void ManageDragEvents()
+    {
         //Drag and drop event
         Event e = Event.current;
         if (e.type == EventType.DragUpdated)
@@ -111,11 +76,66 @@ public class MovementControllerE : Editor
                     WayPoints.Add(gameObject);
                 }
             }
+
             e.Use();
         }
     }
+    private static void DropZoneGUI()
+    {
+        //Draw the drop zone
+        Rect dropZone = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, 2 * EditorGUIUtility.singleLineHeight);
+        GUI.Box(dropZone, "Add wayPoint");
+    }
+    private void WayPointsGUI()
+    {
+        //GUILayout.Label("WayPoints");
+        EditorGUILayout.LabelField("WayPoints");
+        EditorGUILayout.BeginVertical();
+        // if (movementControllerScript.WayPoints != null && movementControllerScript.WayPointsCount > 0)
+        // {
+        //     for (int i = 0; i < movementControllerScript.WayPointsCount; i++)
+        //     {
+        //         movementControllerScript.WayPoints[i] = EditorGUILayout.ObjectField(movementControllerScript.WayPoints[i], typeof(GameObject), true) as GameObject;
+        //     }
+        // }
+        if (WayPoints != null && WayPoints.Count > 0)
+        {
+            for (int i = 0; i < WayPoints.Count; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                WayPoints[i] = EditorGUILayout.ObjectField(WayPoints[i], typeof(GameObject), true) as GameObject;
+                if (GUILayout.Button("^"))
+                {
+                    if (i > 0)
+                    {
+                        GameObject wayPointUpper = WayPoints[i - 1];
+                        WayPoints[i - 1] = WayPoints[i];
+                        WayPoints[i] = wayPointUpper;
+                    }
+                }
 
-    //private int nextPoint = 0;
+                if (GUILayout.Button("v"))
+                {
+                    if (i < WayPoints.Count - 1)
+                    {
+                        GameObject wayPointLower = WayPoints[i + 1];
+                        WayPoints[i + 1] = WayPoints[i];
+                        WayPoints[i] = wayPointLower;
+                    }
+                }
+
+                if (GUILayout.Button("-"))
+                {
+                    DestroyImmediate(WayPoints[i]);
+                    WayPoints.Remove(WayPoints[i]);
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        EditorGUILayout.EndVertical();
+    }
     public void OnSceneGUI()
     {
         //if (movementControllerScript.WayPoints != null && movementControllerScript.WayPointsCount > 0 )

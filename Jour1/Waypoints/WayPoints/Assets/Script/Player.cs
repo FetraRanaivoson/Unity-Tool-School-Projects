@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public GameObject player;
     private List<GameObject> wayPoints;
     private int nextPoint = 0;
-    private int speed = 2;
+    public int speed { get; set; } = 2;
     
 
     void Start()
