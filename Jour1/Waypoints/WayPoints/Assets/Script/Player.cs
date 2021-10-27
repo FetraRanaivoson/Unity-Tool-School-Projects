@@ -5,18 +5,33 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameObject player;
-
-    public List<GameObject> wayPoints;
+    private List<GameObject> wayPoints;
+    private int nextPoint = 0;
+    private int speed = 2;
     
-    // Start is called before the first frame update
+
     void Start()
     {
-        
+        wayPoints = GetComponent<MovementControllerS>().wayPoints;
     }
+    
 
-    // Update is called once per frame
     void Update()
     {
+        if (wayPoints != null && wayPoints.Count > 0)
+        {
+            Vector3 direction = wayPoints[nextPoint].transform.position - player.transform.position;
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.LookRotation(direction),
+                5f);
         
+            if (direction.sqrMagnitude > .1f)
+                player.transform.Translate(0, 0, speed * Time.deltaTime);
+            else
+                nextPoint++;
+        
+            if (nextPoint == wayPoints.Count)
+                nextPoint = 0;
+        }
     }
+    
 }
