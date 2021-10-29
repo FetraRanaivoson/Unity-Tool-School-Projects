@@ -5,87 +5,111 @@ using UnityEditor;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class ColorWindow : EditorWindow
 {
-    private static EditorWindow colorToolWindow;
-    private Color[] colors = {Color.red, Color.white, Color.white, Color.white, Color.white};
-
+    private static EditorWindow _colorToolWindow;
+    private GameObject _targetGameObject;
 
     [MenuItem("CustomTools/Color Tools")]
     public static void OpenWindow()
     {
-        colorToolWindow = GetWindow<ColorWindow>("ColorToolWindow");
+        _colorToolWindow = GetWindow<ColorWindow>("ColorToolWindow");
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
+        InitBoxes();
+    }
+    private void InitBoxes()
+    {
+        for (int row = 0; row < _nbRow; row++)
+        {
+            for (int col = 0; col < _nbCol; col++)
+            {
+                boxesColor[row, col] = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+            }
+        }
     }
 
-    Color paintColor = Color.white;
-    Color eraseColor = Color.white;
-    Color boxRectColorForPaint = Color.green;
-    Color boxRectColorForErase = Color.white;
+    Color _paintColor = Color.white;
+    Color _eraseColor = Color.white;
+    static int _nbRow = 16;
+    static int _nbCol = 18;
+    Rect[,] boxes = new Rect[_nbRow, _nbCol];
+    Color[,] boxesColor = new Color[_nbRow, _nbCol];
+
     private void OnGUI()
     {
-        //string[] selStrings = {"radio1", "radio2", "radio3"};
-        //GUILayout.Toolbar(0, selStrings, GUIStyle.none);
-        //GUI.color = Color.red;
-
-        //GUILayout.BeginHorizontal();
         //TOOLBOX
-        SetColors(Color.black, Color.white);
+        SetColors(Color.white, Color.white);
         Vector2 toolBarSize = new Vector2(position.width / 3, position.height);
         GUILayout.BeginArea(new Rect(0, 0, toolBarSize.x, toolBarSize.y));
             AddSpace(10);
             AddLabel("ToolBar", EditorStyles.boldLabel);
             AddSpace(10);
-            paintColor = EditorGUILayout.ColorField("Paint color", paintColor);
-            eraseColor = EditorGUILayout.ColorField("Erase Color", eraseColor);
-            SetColors(Color.white, Color.white);
-            GUI.Button(new Rect(0, 75, toolBarSize.x, 20), "Fill All");
+            _paintColor = EditorGUILayout.ColorField("Paint color", _paintColor);
+            _eraseColor = EditorGUILayout.ColorField("Erase Color", _eraseColor);
+            _nbRow = EditorGUILayout.IntField("Row", Mathf.Clamp(_nbRow,0, 16));
+            _nbCol = EditorGUILayout.IntField("Column", Mathf.Clamp(_nbCol,0, 18));
+            if (GUI.Button(new Rect(0, 120, toolBarSize.x, 20), "Fill All"))
+            {
+                for (int row = 0; row < _nbRow; row++)
+                {
+                    for (int col = 0; col < _nbCol; col++)
+                    {
+                        boxesColor[row, col] = _paintColor;
+                    }
+                }
+            }
+            AddSpace( toolBarSize.y - 170);
+            EditorGUILayout.BeginHorizontal();
+                AddLabel("Output renderer", EditorStyles.label);
+                _targetGameObject = EditorGUILayout.ObjectField( _targetGameObject, typeof(GameObject), true) as GameObject;
+            EditorGUILayout.EndHorizontal();
+            if (GUI.Button(new Rect(0, toolBarSize.y - 25, toolBarSize.x, 20), "Save to object"))
+            {
+                Debug.Log("Texture saved!");
+            }
         GUILayout.EndArea();
 
         //PAINT AREA
-        SetColors(Color.black, Color.white);
-        //GUILayout.BeginVertical();
-        //GUILayout.BeginArea(new Rect(toolBarSize.x + 10, 0, position.width - toolBarSize.x - 20, position.height - 10));
-        //AddSpace(10);
-        Rect boxRect = new Rect(new Vector2(toolBarSize.x + 10, 10), new Vector2(position.width - toolBarSize.x - 20, position.height - 20));
-        Event e = Event.current;
-        if (e.type == EventType.MouseDown)
+        Vector2 paintPosition = new Vector2(toolBarSize.x + 10, 0);
+        float boxW = (position.width - paintPosition.x) / _nbCol;
+        float boxH = position.height / _nbRow;
+        GUILayout.BeginArea(new Rect(paintPosition.x, paintPosition.y, position.width - toolBarSize.x, position.height));
+        for (int row = 0; row < _nbRow; row++)
         {
-            if (boxRect.Contains(e.mousePosition) && e.button == 0)
+            for (int col = 0; col < _nbCol; col++)
             {
-                Debug.Log("Box clicked");
-                boxRectColorForPaint = paintColor;
-                boxRectColorForErase = eraseColor;
+                boxes[row, col] = new Rect(new Vector2(col * boxW, row * boxH), new Vector2(boxW, boxH));
+                GUI.backgroundColor = boxesColor[row, col];
+                GUI.Box(boxes[row, col], GUIContent.none);
             }
-            e.Use();
         }
-        if (eraseColor != Color.white)
-            GUI.backgroundColor = boxRectColorForErase;
-        else
-            GUI.backgroundColor = boxRectColorForPaint;
+        GUILayout.EndArea();
 
-        GUI.Box(boxRect, GUIContent.none);
-        
-        //GUILayout.Box(new GUIContent(GUIContent.none), GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-        //GUILayout.EndArea();
-        //GUILayout.EndVertical();
-        //GUILayout.EndHorizontal();
-        
-        // EditorGUILayout.BeginVertical();
-        // for (int row = 0; row < colors.Length; row++)
-        // {
-        //     EditorGUILayout.BeginHorizontal();
-        //     for (int col = 0; col < colors.Length; col++)
-        //     {
-        //         DrawCol(row, col);
-        //     }
-        //     EditorGUILayout.EndHorizontal();
-        // }
-        // EditorGUILayout.EndVertical();
+        //MANAGE EVENTS
+        Event e = Event.current;
+        if (e.type == EventType.MouseDrag || e.type == EventType.MouseDown)
+        {
+            for (int row = 0; row < _nbRow; row++)
+            {
+                for (int col = 0; col < _nbCol; col++)
+                {
+                    if (boxes[row, col].Contains(e.mousePosition - paintPosition ) && e.button == 0)
+                    {
+                        boxesColor[row, col] = _paintColor;
+                    }
+                    else if (boxes[row, col].Contains(e.mousePosition - paintPosition ) && e.button == 1)
+                    {
+                        boxesColor[row, col] = _eraseColor;
+                    }
+                    e.Use();
+                }
+            }
+        }
     }
 
     private void SetColors(Color background, Color font)
@@ -93,17 +117,14 @@ public class ColorWindow : EditorWindow
         GUI.backgroundColor = background;
         GUI.color = font;
     }
-
-    private void AddSpace(int pixel)
+    private void AddSpace(float pixel)
     {
         GUILayout.Space(pixel);
     }
-
     private void AddLabel(string text, GUIStyle style)
     {
         GUILayout.Label(text, style);
     }
-
     private void DrawCol(int row, int col)
     {
         GUI.color = Color.white;
