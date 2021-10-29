@@ -11,6 +11,7 @@ public class ColorWindow : EditorWindow
 {
     private static EditorWindow _colorToolWindow;
     private GameObject _targetGameObject;
+    private Texture _texture;
 
     [MenuItem("CustomTools/Color Tools")]
     public static void OpenWindow()
@@ -21,6 +22,7 @@ public class ColorWindow : EditorWindow
     private void OnEnable()
     {
         InitBoxes();
+        _texture = EditorGUIUtility.whiteTexture;
     }
     private void InitBoxes()
     {
@@ -54,8 +56,8 @@ public class ColorWindow : EditorWindow
             _eraseColor = EditorGUILayout.ColorField("Erase Color", _eraseColor);
             
             EditorGUI.BeginChangeCheck();
-            _nbRow = EditorGUILayout.IntField("Row", _nbRow);
-            _nbCol = EditorGUILayout.IntField("Column", _nbCol);
+            _nbRow = EditorGUILayout.IntField("Row", Mathf.Clamp(_nbRow,1, 5000));
+            _nbCol = EditorGUILayout.IntField("Column", Mathf.Clamp(_nbCol,1, 5000));
             if (EditorGUI.EndChangeCheck())
             {
                 boxes = new Rect[_nbRow, _nbCol];
@@ -100,8 +102,9 @@ public class ColorWindow : EditorWindow
             for (int col = 0; col < _nbCol; col++)
             {
                 boxes[row, col] = new Rect(new Vector2(col * boxW, row * boxH), new Vector2(boxW, boxH));
-                GUI.backgroundColor = boxesColor[row, col];
-                GUI.Box(boxes[row, col], GUIContent.none);
+                GUI.color = boxesColor[row, col];
+                GUI.DrawTexture(boxes[row, col], _texture);
+                //GUI.Box(boxes[row, col], GUIContent.none);
             }
         }
         GUILayout.EndArea();
