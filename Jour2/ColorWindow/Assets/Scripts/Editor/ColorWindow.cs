@@ -42,6 +42,7 @@ public class ColorWindow : EditorWindow
 
     private void OnGUI()
     {
+        
         //TOOLBOX
         SetColors(Color.white, Color.white);
         Vector2 toolBarSize = new Vector2(position.width / 3, position.height);
@@ -51,8 +52,23 @@ public class ColorWindow : EditorWindow
             AddSpace(10);
             _paintColor = EditorGUILayout.ColorField("Paint color", _paintColor);
             _eraseColor = EditorGUILayout.ColorField("Erase Color", _eraseColor);
-            _nbRow = EditorGUILayout.IntField("Row", Mathf.Clamp(_nbRow,0, 16));
-            _nbCol = EditorGUILayout.IntField("Column", Mathf.Clamp(_nbCol,0, 18));
+            
+            EditorGUI.BeginChangeCheck();
+            _nbRow = EditorGUILayout.IntField("Row", _nbRow);
+            _nbCol = EditorGUILayout.IntField("Column", _nbCol);
+            if (EditorGUI.EndChangeCheck())
+            {
+                boxes = new Rect[_nbRow, _nbCol];
+                boxesColor = new Color[_nbRow, _nbCol];
+                for (int row = 0; row < _nbRow; row++)
+                {
+                    for (int col = 0; col < _nbCol; col++)
+                    {
+                        boxesColor[row, col] = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                    }
+                }
+            }
+            
             if (GUI.Button(new Rect(0, 120, toolBarSize.x, 20), "Fill All"))
             {
                 for (int row = 0; row < _nbRow; row++)
