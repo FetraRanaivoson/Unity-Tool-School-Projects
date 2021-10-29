@@ -38,7 +38,7 @@ public class MovementControllerE : Editor
         
         //Display movement parameter
         EditorGUILayout.LabelField("Movement Controller Params");
-        movementControllerScript.GetComponent<Player>().speed = EditorGUILayout.IntField("Speed", movementControllerScript.GetComponent<Player>().speed); //GUILayout.Label("Movement Controller Params");
+        movementControllerScript.GetComponent<Player>().Speed = EditorGUILayout.IntField("Speed", movementControllerScript.GetComponent<Player>().Speed); //GUILayout.Label("Movement Controller Params");
         //movementControllerScript.GetComponent<Player>().speed = playerSpeed;         
        
         WayPointsGUI();
