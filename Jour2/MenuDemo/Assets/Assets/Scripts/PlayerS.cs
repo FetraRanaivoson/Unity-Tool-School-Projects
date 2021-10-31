@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerS : MonoBehaviour
 {
-    //[ContextMenuItem("Reset", "ResetPosition")]
-    //private Transform transform;
-    
+    [ContextMenuItem("Reset Position v2", "ResetInitialPosition")]
+    public Vector3 initialPosition = new Vector3(10,10,10);
+    public void ResetInitialPosition()
+    {
+       initialPosition = new Vector3(10, 10, 10);
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+         
     }
 
     // Update is called once per frame
@@ -19,9 +23,10 @@ public class PlayerS : MonoBehaviour
         
     }
 
-    [ContextMenu("ResetPosition")]
+    [ContextMenu("Reset Position")]
     public void ResetPosition()
     {
         transform.position = new Vector3(0, 0, 0);
+        
     }
 }

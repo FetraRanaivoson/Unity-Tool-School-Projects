@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class MainScript : MonoBehaviour
 {
-
-    public Brique brique;
+    //public Brique brique;
+    
+    [Int(3)]
+    public int nbBrique;
     void Start()
     {
         

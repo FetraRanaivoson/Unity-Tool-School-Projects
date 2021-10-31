@@ -56,8 +56,8 @@ public class ColorWindow : EditorWindow
             _eraseColor = EditorGUILayout.ColorField("Erase Color", _eraseColor);
             
             EditorGUI.BeginChangeCheck();
-            _nbRow = EditorGUILayout.IntField("Row", Mathf.Clamp(_nbRow,1, 5000));
-            _nbCol = EditorGUILayout.IntField("Column", Mathf.Clamp(_nbCol,1, 5000));
+            _nbRow = EditorGUILayout.IntField("Row", Mathf.Max(2, _nbRow));
+            _nbCol = EditorGUILayout.IntField("Column", Mathf.Max(2, _nbCol));
             if (EditorGUI.EndChangeCheck())
             {
                 boxes = new Rect[_nbRow, _nbCol];
