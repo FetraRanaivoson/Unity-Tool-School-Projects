@@ -11,7 +11,8 @@ public class ColorWindow : EditorWindow
 {
     private static EditorWindow _colorToolWindow;
     private GameObject _targetGameObject;
-    private Texture _texture;
+    private Texture2D _texture;
+    
 
     [MenuItem("CustomTools/Color Tools")]
     public static void OpenWindow()
@@ -41,10 +42,10 @@ public class ColorWindow : EditorWindow
     static int _nbCol = 18;
     Rect[,] boxes = new Rect[_nbRow, _nbCol];
     Color[,] boxesColor = new Color[_nbRow, _nbCol];
+    private Texture2D [,] _savedTextures = new Texture2D[_nbRow,_nbCol];
 
     private void OnGUI()
     {
-        
         //TOOLBOX
         SetColors(Color.white, Color.white);
         Vector2 toolBarSize = new Vector2(position.width / 3, position.height);
@@ -88,7 +89,7 @@ public class ColorWindow : EditorWindow
             EditorGUILayout.EndHorizontal();
             if (GUI.Button(new Rect(0, toolBarSize.y - 25, toolBarSize.x, 20), "Save to object"))
             {
-                Debug.Log("Texture saved!");
+                SaveTextures();
             }
         GUILayout.EndArea();
 
@@ -129,6 +130,45 @@ public class ColorWindow : EditorWindow
                 }
             }
         }
+    }
+
+    private void SaveTextures()
+    {
+       // int mipCount = Mathf.Min(_nbRow*_nbCol, _texture.mipmapCount);
+       int mipCount = Mathf.Min(_nbRow*_nbCol, _texture.mipmapCount);
+        int currentRow = 0;
+        // tint each mip level
+        for (int mip = 0; mip < mipCount; mip++)
+        {
+            Color[] cols = _texture.GetPixels(mip);
+            for (int i = 0; i < cols.Length; i++)
+            {
+                if (i < _nbCol)
+                {
+                    //0:00 1:01 2:02 3:03 .. 
+                    cols[i] = boxesColor[currentRow,i];  
+                }
+                else
+                {
+                    currentRow++;
+                }
+            }
+            _texture.SetPixels(cols, mip);
+        }
+
+        byte[] bytes = _texture.EncodeToPNG();
+        var dirPath = Application.dataPath + "/Resources";
+        if (!System.IO.Directory.Exists(dirPath))
+        {
+            System.IO.Directory.CreateDirectory(dirPath);
+        }
+        System.IO.File.WriteAllBytes(dirPath + "/Texture" + ".png", bytes);
+        Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + dirPath);
+        #if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+        #endif
+        Texture2D loadedTexture2D = Resources.Load<Texture2D>("Texture");
+        _targetGameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", loadedTexture2D);
     }
 
     private void SetColors(Color background, Color font)
