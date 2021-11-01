@@ -38,7 +38,7 @@ public class ColorWindow : EditorWindow
 
     Color _paintColor = Color.white;
     Color _eraseColor = Color.white;
-    static int _nbRow = 16;
+    static int _nbRow = 18;
     static int _nbCol = 18;
     Rect[,] boxes = new Rect[_nbRow, _nbCol];
     Color[,] boxesColor = new Color[_nbRow, _nbCol];
@@ -135,7 +135,6 @@ public class ColorWindow : EditorWindow
     private void SaveTextures()
     {
         Texture2D t2d = new Texture2D(_nbRow, _nbCol);  //Create a new texture
-        t2d = _texture;
         t2d.filterMode = FilterMode.Point;  //Simplest non-blend texture mode
         _targetGameObject.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Diffuse"));//Materials require Shaders as an arguement, Diffuse is the most basic type
         _targetGameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = t2d;      
@@ -145,8 +144,8 @@ public class ColorWindow : EditorWindow
         {
             for (int j = 0; j < _nbRow; j++)
             {
-                int index = j + i * _nbRow;
-                t2d.SetPixel(i, _nbRow - 1 - j, colors[index]); //Color every pixel using our color table, the texture is 8x8 pixels large, but strecthes to fit
+                int index = j + i * _nbCol;
+                t2d.SetPixel(i, _nbRow - 1 - j, boxesColor[j, i]); //Color every pixel using our color table, the texture is 8x8 pixels large, but strecthes to fit
             }
         }
         t2d.Apply();
