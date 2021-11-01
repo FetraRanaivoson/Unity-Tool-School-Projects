@@ -40,7 +40,7 @@ public class BrickCustomDrawer : PropertyDrawer
             int boxSpacing = 10;
             int marginLeft = 5;
             int marginTop = 30;
-            GUI.DrawTexture(new Rect(bgPosition.x + marginLeft + (boxWidth + boxSpacing) * i + boxSpacing,
+            GUI.DrawTexture(new Rect(bgPosition.x + (boxWidth + boxSpacing) * i + boxSpacing,
                 bgPosition.y + marginTop, boxWidth, boxHeight), _texture);
         }
 
