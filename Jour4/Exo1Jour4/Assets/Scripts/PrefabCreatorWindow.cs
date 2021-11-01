@@ -1,31 +1,36 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Codice.Client.BaseCommands.BranchExplorer;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-[CustomEditor(typeof(MainScript))]
-public class EnemyListsEditor : Editor
+public class PrefabCreatorWindow : EditorWindow
 {
-    private MainScript _mainScript;
-    private string[] _prefabName = new string[3];
-    private int _selectedIndex;
-
-    private void OnEnable()
+    private static EditorWindow _enemyToolWindow;
+    [MenuItem("Enemy/Create enemy...")]
+    public static void OpenEnemyCreationWindow()
     {
-        _mainScript = target as MainScript;
-        _prefabName = new[] {"Enemy Type 1", "Enemy Type 2", "Enemy Type 3"};
+        _enemyToolWindow = GetWindow<PrefabCreatorWindow>("Enemy window tool");
     }
 
-    private bool _prefabCreated = true;
-
-    public override void OnInspectorGUI()
+    
+    private string[] _prefabName = new string[3];
+    private MainScript _mainScript;
+    private void OnEnable()
     {
-        EditorGUILayout.BeginVertical();
+        _prefabName = new[] {"Enemy Type 1", "Enemy Type 2", "Enemy Type 3"};
+        _mainScript = FindObjectOfType<MainScript>();
+    }
+
+    private int _selectedIndex;
+    private bool _prefabCreated = true;
+    private void OnGUI()
+    {
         _selectedIndex = EditorGUILayout.Popup("Enemy type", _selectedIndex, _prefabName);
-        Rect buttonPosition = new Rect(150, 50, 100, 20);
+        float buttonWidth = position.width / 5;
+        float buttonHeight = position.height / 10;
+        float buttonPosX = position.width / 2 - buttonWidth / 2;
+        Rect buttonPosition = new Rect(buttonPosX, 30, buttonWidth, buttonHeight);
         if (_prefabCreated)
         {
             if (GUI.Button(buttonPosition, "Create"))
@@ -36,18 +41,13 @@ public class EnemyListsEditor : Editor
         }
         else
         {
-            if (GUI.Button(buttonPosition, "Swap"))
+            if (GUI.Button(buttonPosition,"Swap"))
             {
                 _mainScript.SwapInstancedPrefabBy(_selectedIndex);
                 _prefabCreated = true;
             }
         }
-
-        EditorGUILayout.EndVertical();
-
-        Rect area = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, 4 * EditorGUIUtility.singleLineHeight);
-        GUI.Box(area, GUIContent.none);
-
+        
         //Update to create button if user clicks outside the editor
         Event e = Event.current;
         if (e.type == EventType.MouseDown)
@@ -59,4 +59,5 @@ public class EnemyListsEditor : Editor
             e.Use();
         }
     }
+    
 }
