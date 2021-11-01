@@ -134,41 +134,22 @@ public class ColorWindow : EditorWindow
 
     private void SaveTextures()
     {
-       // int mipCount = Mathf.Min(_nbRow*_nbCol, _texture.mipmapCount);
-       int mipCount = Mathf.Min(_nbRow*_nbCol, _texture.mipmapCount);
-        int currentRow = 0;
-        // tint each mip level
-        for (int mip = 0; mip < mipCount; mip++)
-        {
-            Color[] cols = _texture.GetPixels(mip);
-            for (int i = 0; i < cols.Length; i++)
-            {
-                if (i < _nbCol)
-                {
-                    //0:00 1:01 2:02 3:03 .. 
-                    cols[i] = boxesColor[currentRow,i];  
-                }
-                else
-                {
-                    currentRow++;
-                }
-            }
-            _texture.SetPixels(cols, mip);
-        }
+        Texture2D t2d = new Texture2D(_nbRow, _nbCol);  //Create a new texture
+        t2d = _texture;
+        t2d.filterMode = FilterMode.Point;  //Simplest non-blend texture mode
+        _targetGameObject.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Diffuse"));//Materials require Shaders as an arguement, Diffuse is the most basic type
+        _targetGameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = t2d;      
+        //sharedMaterial is the MAIN RESOURCE MATERIAL. Changing this will change ALL objects using it, .material will give you the local instance
 
-        byte[] bytes = _texture.EncodeToPNG();
-        var dirPath = Application.dataPath + "/Resources";
-        if (!System.IO.Directory.Exists(dirPath))
+        for (int i = 0; i < _nbCol; i++)
         {
-            System.IO.Directory.CreateDirectory(dirPath);
+            for (int j = 0; j < _nbRow; j++)
+            {
+                int index = j + i * _nbRow;
+                t2d.SetPixel(i, _nbRow - 1 - j, colors[index]); //Color every pixel using our color table, the texture is 8x8 pixels large, but strecthes to fit
+            }
         }
-        System.IO.File.WriteAllBytes(dirPath + "/Texture" + ".png", bytes);
-        Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + dirPath);
-        #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
-        #endif
-        Texture2D loadedTexture2D = Resources.Load<Texture2D>("Texture");
-        _targetGameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", loadedTexture2D);
+        t2d.Apply();
     }
 
     private void SetColors(Color background, Color font)
