@@ -24,54 +24,80 @@ public class CreateCardEditor : EditorWindow
     private int _manaCost = 0;
     private void OnGUI()
     {
-        Rect leftAreaRect = CreateRect(0,0,position.width/4, 3*position.height/4);
-        GUILayout.BeginArea(new Rect(leftAreaRect));
-            SetColors(Color.white, Color.white); 
-            AddSpace(10);
-            GUILayout.Label(new GUIContent("Card Name: "));
-            _cardName = EditorGUILayout.TextArea(_cardName);
-            AddSpace(10);
-            
-            GUILayout.Label(new GUIContent("Description: "));
-            _description = EditorGUILayout.TextArea(_description);
-            AddSpace(10);
-            
-            GUILayout.Label(new GUIContent("Mana Cost: "));
-            _manaCost = EditorGUILayout.IntField(_manaCost);
-            AddSpace(10);
-            
-            GUILayout.Label(new GUIContent("Background Color: "));
-            EditorGUILayout.ColorField(Color.white);
-            AddSpace(10);
-            
-            GUILayout.Label(new GUIContent("Image: "));
-            GUI.Button(new Rect( leftAreaRect.width/2 - (leftAreaRect.width)/2,250, leftAreaRect.width, leftAreaRect.height /20), "Create New Card");
+        Rect leftAreaRect = LayoutUtil.GetRect(position, 0,0, 4,12);
+        DrawLeftArea(leftAreaRect);
+        Rect rightArea = LayoutUtil.GetRect(position, 4, 0, 8,12);
+        DrawRightArea(rightArea);
         
+        //Preview Area
+        Rect previewRect = LayoutUtil.GetRect(leftAreaRect, 1,6, 11,6);
+        GUILayout.BeginArea(previewRect);
             GUI.color = Color.green;
-            Rect cardBg = CreateRect(0,0,10,10);
-            GUI.DrawTexture(LayoutUtil.GetRect(leftAreaRect, 0, 0, 2, 2), _texture);
-            
-            // Rect cardArea = CreateRect(leftAreaRect.width, 0 , leftAreaRect.width / 4, 150);
-            // GUILayout.BeginArea(cardArea);
-            //     SetColors(Color.yellow, Color.yellow);
-            //     GUI.DrawTexture(cardArea, _texture);
-            // GUILayout.EndArea();
-            
 
-        GUILayout.EndArea();
-        
-        
-        Rect creationRect = CreateRect(leftAreaRect.width+1, 0, position.width - leftAreaRect.width, position.height);
-        GUILayout.BeginArea(creationRect);
-            SetColors(Color.white, Color.white); 
-            GUI.DrawTexture(new Rect(0, 0, position.width - leftAreaRect.x, position.height ), _texture);
-            GUI.Button(new Rect(creationRect.width/2, 0, position.width/10, position.height / 15), "test");
-            GUILayout.BeginHorizontal();
-                GUI.color = Color.gray;
-                GUI.DrawTexture(new Rect(0,position.height - 50, position.width - leftAreaRect.x, position.height/2), _texture);
-            GUILayout.EndHorizontal();
+            float height = position.height;
+            float size = height / 10;
+            
+            GUI.DrawTexture(LayoutUtil.GetRect(previewRect, 0,0, 12,11), _texture);
         GUILayout.EndArea();
     }
+    private void DrawLeftArea(Rect leftAreaRect)
+    {
+        GUILayout.BeginArea(new Rect(leftAreaRect));
+        SetColors(Color.white, Color.white); 
+        AddSpace(10);
+        GUILayout.Label(new GUIContent("Card Name: "));
+        _cardName = EditorGUILayout.TextArea(_cardName);
+        AddSpace(10);
+            
+        GUILayout.Label(new GUIContent("Description: "));
+        _description = EditorGUILayout.TextArea(_description);
+        AddSpace(10);
+            
+        GUILayout.Label(new GUIContent("Mana Cost: "));
+        _manaCost = EditorGUILayout.IntField(_manaCost);
+        AddSpace(10);
+            
+        GUILayout.Label(new GUIContent("Background Color: "));
+        EditorGUILayout.ColorField(Color.white);
+        AddSpace(10);
+            
+        GUILayout.Label(new GUIContent("Image: "));
+        GUI.Button(new Rect( leftAreaRect.width/2 - (leftAreaRect.width)/2,250, leftAreaRect.width, leftAreaRect.height /20), "Create New Card");
+        
+        GUILayout.EndArea();
+        
+        // Rect cardArea = CreateRect(leftAreaRect.width, 0 , leftAreaRect.width / 4, 150);
+        // GUILayout.BeginArea(cardArea);
+        //     SetColors(Color.yellow, Color.yellow);
+        //     GUI.DrawTexture(cardArea, _texture);
+        // GUILayout.EndArea();
+     
+    }
+    
+    private void DrawRightArea(Rect rightArea)
+    {
+        GUILayout.BeginArea(rightArea);
+        
+        //Card placer 1
+        SetColors(Color.white, Color.white);
+        GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 1, 4, 4), _texture);
+        
+        //Card placer 2
+        SetColors(Color.white, Color.white);
+        GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 6, 1, 4, 4), _texture);
+        
+        //Card placer 3
+        SetColors(Color.white, Color.white);
+        GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 6, 4, 4), _texture);
+        
+        //Card placer 4
+        SetColors(Color.white, Color.white);
+        GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 6, 6, 4, 4), _texture);
+        
+        GUILayout.EndArea();
+    }
+
+    
 
     private Rect CreateRect(float positionX, float positionY, float width, float height)
     {
