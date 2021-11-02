@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07cccd6aff423e842a668473207bfe6a, type: 3}
   m_Name: WaterMagicCard
   m_EditorClassIdentifier: 
-  cardName: 
-  description: 
-  manaCost: 0
-  manaType: 0
-  backgoundColor: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 0}
+  cardName: WaterCard
+  description: This card beats the fire card
+  manaCost: 15
+  manaType: 4
+  backgoundColor: {r: 0.04805973, g: 0.9433962, b: 0.18627395, a: 0}
+  sprite: {fileID: 21300000, guid: 14d5ffb5ed8e3da40851408d8692e4e2, type: 3}
