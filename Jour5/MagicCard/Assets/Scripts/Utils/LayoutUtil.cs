@@ -15,3 +15,5 @@ public class LayoutUtil
         return new Rect(rowX * rectW, rowY * rectH, nbCol * rectW, nbRow * rectH);
     }
 }
+
+

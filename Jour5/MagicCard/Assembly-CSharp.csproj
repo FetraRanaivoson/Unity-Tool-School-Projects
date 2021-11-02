@@ -53,8 +53,8 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CardType.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\CardScriptable.cs" />
      <Compile Include="Assets\Scripts\Utils\LayoutUtil.cs" />
+     <Compile Include="Assets\Scripts\Scriptables\CardScriptable.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Editor/2020.3.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
