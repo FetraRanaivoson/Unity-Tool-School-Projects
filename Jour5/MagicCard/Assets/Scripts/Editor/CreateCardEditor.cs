@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Directory = UnityEngine.Windows.Directory;
 using Object = System.Object;
 
 
@@ -15,10 +17,16 @@ public class CreateCardEditor : EditorWindow
         GetWindow<CreateCardEditor>().Show();
     }
 
+    // private string[] _listScriptableCard()
+    // {
+    //     return "d";
+    // }
+    //
     private void OnEnable()
     {
         _texture = EditorGUIUtility.whiteTexture;
         _cardTypesList = new[] {"Fire", "Wood", "Earth", "Metal", "Water"};
+        //_listScriptableCard = AssetDatabase.GetAllAssetPaths(Path.Combine("Assets", "Datas"));
     }
 
     private Texture _texture;
@@ -39,6 +47,7 @@ public class CreateCardEditor : EditorWindow
         DrawCard(previewArea);
     }
 
+ 
     private float _labelWidth = 80;
     private float _labelHeight = 25;
     private float _fieldWidth = 200;
@@ -73,8 +82,43 @@ public class CreateCardEditor : EditorWindow
                 _labelWidth, _labelHeight);
             _selectedCardIndex = EditorGUI.Popup(new Rect(_leftMargin, spriteLabelPosition.y + _fieldSpacing * _labelHeight,
                 _labelWidth *3, _labelHeight ),"Card Type: ", _selectedCardIndex, _cardTypesList);
-            
-            GUI.Button(new Rect( leftAreaRect.width/2 - leftAreaRect.width/4, position.height - 50, leftAreaRect.width/2, leftAreaRect.height /20), "Create New Card");
+
+            if (GUI.Button(
+                new Rect(leftAreaRect.width / 2 - leftAreaRect.width / 4, position.height - 50, leftAreaRect.width / 2,
+                    leftAreaRect.height / 20), "Create New Card"))
+            {
+                CardScriptable cardAsset = ScriptableObject.CreateInstance<CardScriptable>();
+                cardAsset.cardName = _cardName;
+                cardAsset.description = _description;
+                cardAsset.manaCost = _manaCost;
+                switch (_selectedCardIndex)
+                {
+                    case 0:
+                        cardAsset.manaType = CardType.Fire;
+                        break;
+                    case 1:
+                        cardAsset.manaType = CardType.Wood;
+                        break;
+                    case 2:
+                        cardAsset.manaType = CardType.Earth;
+                        break;
+                    case 3:
+                        cardAsset.manaType = CardType.Metal;
+                        break;
+                    case 4:
+                        cardAsset.manaType = CardType.Water;
+                        break;
+                }
+
+                cardAsset.backgoundColor = _bgColor;
+                if (!Directory.Exists(Path.Combine("Assets", "Datas")))
+                {
+                    Directory.CreateDirectory(Path.Combine("Assets", "Datas"));
+                }
+                //AssetDatabase.CreateAsset(cardAsset, "Assets/Datas/" + _cardName + ".asset");
+                AssetDatabase.CreateAsset(cardAsset, Path.Combine("Assets", "Datas/", _cardName + ".asset"));
+                AssetDatabase.SaveAssets();
+            }
         GUILayout.EndArea();
     }
 
@@ -147,18 +191,7 @@ public class CreateCardEditor : EditorWindow
         
         GUILayout.EndArea();
     }
-
     
-
-    private Rect CreateRect(float positionX, float positionY, float width, float height)
-    {
-        Rect rectArea = new Rect(positionX, positionY, width, height);
-        return rectArea;
-        // GUILayout.BeginArea(rectArea);
-        //     GUI.color = color;
-        //     GUI.DrawTexture(rectArea, _texture);
-        // GUILayout.EndArea();
-    }
     
     private void AddSpace(float pixel)
     {
