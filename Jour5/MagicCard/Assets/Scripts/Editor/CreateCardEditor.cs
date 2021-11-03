@@ -116,7 +116,7 @@ public class CreateCardEditor : EditorWindow
                     Directory.CreateDirectory(Path.Combine("Assets", "Datas"));
                 }
                 //AssetDatabase.CreateAsset(cardAsset, "Assets/Datas/" + _cardName + ".asset");
-                AssetDatabase.CreateAsset(cardAsset, Path.Combine("Assets", "Datas/", _cardName + ".asset"));
+                AssetDatabase.CreateAsset(cardAsset, Path.Combine("Assets", "Datas", _cardName + ".asset"));
                 AssetDatabase.SaveAssets();
             }
         GUILayout.EndArea();
