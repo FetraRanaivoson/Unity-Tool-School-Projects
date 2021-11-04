@@ -31,7 +31,7 @@ public class MainScriptEditor : Editor
             new Rect(EditorGUIUtility.currentViewWidth / 2 - EditorGUIUtility.currentViewWidth / 4, 40,
                 EditorGUIUtility.currentViewWidth / 2, 25), "Load"))
         {
-            
+            _mainScript.player.DeserializePosition();
         }
 
     }

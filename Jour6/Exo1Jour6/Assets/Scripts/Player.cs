@@ -88,9 +88,9 @@ public class Player : MonoBehaviour
     public void SerializePosition()
     {
         List<PlayerData> playerDatas = new List<PlayerData>();
-        foreach (var player in _players)
+        for (int i = 0; i< _nbPlayer; i++)
         {
-            playerDatas.Add(new PlayerData(player.transform.position));
+            playerDatas.Add(new PlayerData(_players[i].name + (i+1), _players[i].transform.position));
         }
         //PlayerWrappper p = new PlayerWrappper();
         //p.players = playerDatas;
@@ -107,6 +107,24 @@ public class Player : MonoBehaviour
         AssetDatabase.SaveAssets();
 
     }
+
+    public void DeserializePosition()
+    {
+        string json = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "myFile.json"));
+
+        PlayerWrappper p = new PlayerWrappper();
+        List<PlayerData> playerDatas = JsonManager.FromJson<List<PlayerData>>(json);
+        p.players = playerDatas;
+
+        Debug.Log(p.players.Count);
+
+        // foreach (var player in playerDatas)
+        // {
+        //     Debug.Log("Name: " + player.name + ", Position: " + player.Position);
+        // }
+    }
+    
+    
     
     [Serializable]
     public class PlayerWrappper

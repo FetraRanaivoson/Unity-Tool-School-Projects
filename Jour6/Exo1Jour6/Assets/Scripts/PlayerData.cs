@@ -6,14 +6,16 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
+    public string name;
     public Vector3 Position;
-
+    
     public PlayerData()
     {
     }
 
-    public PlayerData(Vector3 position)
+    public PlayerData(string name,Vector3 position)
     {
+        this.name = name;
         this.Position = position;
     }
 }

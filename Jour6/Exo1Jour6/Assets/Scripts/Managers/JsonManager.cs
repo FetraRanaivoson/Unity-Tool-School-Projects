@@ -29,5 +29,4 @@ public class JsonManager
             this.datas = datas;
         }
     }
-    
 }
