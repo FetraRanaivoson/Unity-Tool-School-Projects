@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using Directory = UnityEngine.Windows.Directory;
 using Object = System.Object;
@@ -17,16 +18,34 @@ public class CreateCardEditor : EditorWindow
         GetWindow<CreateCardEditor>().Show();
     }
 
-    // private string[] _listScriptableCard()
-    // {
-    //     return "d";
-    // }
-    //
+    private string[] _listScriptableCard;
+    private CardScriptable[] a;
     private void OnEnable()
     {
         _texture = EditorGUIUtility.whiteTexture;
         _cardTypesList = new[] {"Fire", "Wood", "Earth", "Metal", "Water"};
-        //_listScriptableCard = AssetDatabase.GetAllAssetPaths(Path.Combine("Assets", "Datas"));
+        _listScriptableCard = GetCardScriptable();
+    }
+    
+    private string[] GetCardScriptable()
+    {
+        List<string> card = new List<string>();
+        string[] temp = System.IO.Directory.GetFiles("Assets/Datas");
+        foreach (var file in temp)
+        {
+            if (!file.Contains(".meta"))
+            {
+                card.Add(file.Split('/')[1]);
+            }
+        }
+
+        // retour = AssetDatabase.FindAssets("", new[] {"Assets/Persos"});
+        foreach (var VARIABLE in card)
+        {
+            Debug.Log(VARIABLE);
+        }
+
+        return card.ToArray();
     }
 
     private Texture _texture;
@@ -172,7 +191,7 @@ public class CreateCardEditor : EditorWindow
     private void DrawRightArea(Rect rightArea)
     {
         GUILayout.BeginArea(rightArea);
-        
+     
         //Card placer 1
         SetColors(Color.white, Color.white);
         GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 1, 4, 4), _texture);
