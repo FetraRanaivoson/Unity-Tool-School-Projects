@@ -24,14 +24,14 @@ public class MainScriptEditor : Editor
             new Rect(EditorGUIUtility.currentViewWidth / 2 - EditorGUIUtility.currentViewWidth / 4, 10,
                 EditorGUIUtility.currentViewWidth / 2, 25), "Save"))
         {
-            _mainScript.player.SerializePosition();
+            //_mainScript.player.SerializePosition();
         }
 
         if (GUI.Button(
             new Rect(EditorGUIUtility.currentViewWidth / 2 - EditorGUIUtility.currentViewWidth / 4, 40,
                 EditorGUIUtility.currentViewWidth / 2, 25), "Load"))
         {
-            _mainScript.player.DeserializePosition();
+            //_mainScript.player.DeserializePosition();
         }
 
     }
