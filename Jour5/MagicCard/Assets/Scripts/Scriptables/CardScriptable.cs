@@ -12,7 +12,7 @@ public class CardScriptable : ScriptableObject
     public string description;
     public int manaCost;
     public CardType manaType;
-    public Color backgoundColor;
+    public Color backgroundColor;
     public Sprite sprite;
     
 }
