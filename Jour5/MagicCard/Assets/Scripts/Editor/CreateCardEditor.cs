@@ -96,7 +96,7 @@ public class CreateCardEditor : EditorWindow
             
             Rect spriteLabelPosition = new Rect(_leftMargin, bgLabelPosition.y + _fieldSpacing *_labelHeight, _labelWidth, _labelHeight);
             CreateSpriteField(spriteLabelPosition, "Image: ", ref _sprite);
-
+            
             Rect cardTypeLabelPosition = new Rect(_leftMargin, spriteLabelPosition.y + _fieldSpacing * _labelHeight,
                 _labelWidth, _labelHeight);
             _selectedCardIndex = EditorGUI.Popup(new Rect(_leftMargin, spriteLabelPosition.y + _fieldSpacing * _labelHeight,
@@ -147,9 +147,24 @@ public class CreateCardEditor : EditorWindow
             //Bg
             GUI.color = _bgColor;
             GUI.DrawTexture(LayoutUtil.GetRect(previewRect, 0, 0, 12, 11), _texture);
+            
+            
             //Image
             GUI.color = Color.blue;
-            GUI.DrawTexture(LayoutUtil.GetRect(previewRect, 1, 1, 10, 9), _texture);
+            if (_sprite != null)
+            {
+                var spriteTexture = new Texture2D( (int)_sprite.rect.width, (int)_sprite.rect.height );
+                var pixels = _sprite.texture.GetPixels(  (int)_sprite.textureRect.x, 
+                    (int)_sprite.textureRect.y, 
+                    (int)_sprite.textureRect.width, 
+                    (int)_sprite.textureRect.height );
+                spriteTexture.SetPixels( pixels );
+                spriteTexture.Apply();
+                GUI.DrawTexture(LayoutUtil.GetRect(previewRect, 1, 1, 10, 9), spriteTexture);
+            }
+        
+            
+            
             //Description
             GUI.color = Color.white;
             GUI.DrawTexture(LayoutUtil.GetRect(previewRect, 1, 8, 10, 2), _texture);

@@ -7,40 +7,36 @@ using UnityEngine;
 
 public class MainScript : MonoBehaviour
 {
-    //public Player player;
-    
-    private int nbPlayers = 20;
+    public int NbPlayers { get; private set; }
     private GameObject _playerResource;
     public List<Player> players;
-
-    
-    private Vector2 offset;
+    private Vector2 _offset;
 
     private void Awake()
     {
-        //player = GetComponent<Player>();
         _playerResource = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Player.prefab");
         players = new List<Player>();
-        offset = new Vector2(20,20);
-        for (int i = 0; i < nbPlayers; i++)
+        _offset = new Vector2(20,20);
+        NbPlayers = 20;
+        for (int i = 0; i < NbPlayers; i++)
         {
             GameObject playerObjectInstance = GameObject.Instantiate(_playerResource);
             Player playerScript = playerObjectInstance.GetComponent<Player>();
             players.Add(playerScript);
-            players[i].Init(offset);
+            players[i].Init(_offset);
         }
-        
     }
 
     void Start()
     {
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].ApplyForce();
+        }
     }
     
     void Update()
     {
-        for (int i = 0; i < players.Count; i++)
-        {
-            players[i].Move(offset, Time.deltaTime);
-        }
+     
     }
 }

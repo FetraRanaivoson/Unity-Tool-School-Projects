@@ -8,16 +8,17 @@ public class PlayerData
 {
     public string name;
     public Vector3 position;
-    public float velocity;
-    
+    public Vector3 velocity;
+    public Color color;
     public PlayerData()
     {
     }
 
-    public PlayerData(string name,Vector3 position, float velocity)
+    public PlayerData(string name,Vector3 position, Vector3 velocity, Color color)
     {
         this.name = name;
         this.position = position;
         this.velocity = velocity;
+        this.color = color;
     }
 }
