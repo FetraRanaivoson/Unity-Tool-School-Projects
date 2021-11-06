@@ -45,8 +45,9 @@ public class MainScriptEditor : Editor
         List<PlayerData> playerData = new List<PlayerData>();
         for (int i = 0; i < _mainScript.NbPlayers; i++)
         {
-            playerData.Add(new PlayerData(_players[i].name, _players[i].transform.position,
-                _players[i].Rb.velocity, _players[i].Color));
+            // playerData.Add(new PlayerData(_players[i].name, _players[i].transform.position,
+            //     _players[i].Rb.velocity, _players[i].Color));
+            playerData.Add(_mainScript.players[i].GetData());
         }
 
         JsonManager.WrapperList<PlayerData> data = new JsonManager.WrapperList<PlayerData>(playerData);
@@ -64,8 +65,7 @@ public class MainScriptEditor : Editor
     private void DeserializePlayer()
     {
         string json = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, playerDataFilename));
-        JsonManager.WrapperList<PlayerData> playersData =
-            JsonManager.FromJson<JsonManager.WrapperList<PlayerData>>(json);
+        JsonManager.WrapperList<PlayerData> playersData = JsonManager.FromJson<JsonManager.WrapperList<PlayerData>>(json);
 
         for (int i = 0; i < playersData.datas.Count; i++)
         {

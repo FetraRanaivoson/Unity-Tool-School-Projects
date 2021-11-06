@@ -37,6 +37,5 @@ public class MainScript : MonoBehaviour
     
     void Update()
     {
-     
     }
 }

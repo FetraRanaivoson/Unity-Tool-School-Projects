@@ -24,18 +24,20 @@ public class Player : MonoBehaviour
     public void Init(Vector2 offset)
     {
         //Randomize position
-        transform.position = new Vector3(Random.Range(-offset.x, offset.x), transform.position.y,
+        transform.position = new Vector3(Random.Range(-offset.x, offset.x), .7f,
             Random.Range(-offset.y, offset.y));
         //Randomize direction
         transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, Random.Range(0,360), transform.rotation.z));
         //Randomize force to apply
-        RbForce = Random.Range(3000, 4000);
+        RbForce = Random.Range(500, 1000);
+        //RbForce = 20;
         //Randomize color
         InitColor(new Color(Random.value, Random.value, Random.value, 1));
     }
     public void ApplyForce()
     {
         Rb.AddForce(transform.forward * RbForce, ForceMode.Force);
+        //transform.Translate(0,0, RbForce * Time.deltaTime);
     }
 
     public void InitPlayer(PlayerData playerData)
