@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     void LateUpdate()
     {
         follow?.Invoke(this.gameObject);//must have the same signature as the delegate
+        //follow(this.gameObject);
     }
     
     
