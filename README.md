@@ -6,6 +6,24 @@ When you're done, you can delete the content in this README and update the file 
 
 ---
 
+## Exo 1
+1. You can drag and drop game objects player onto the main movement controller to create a waypoint system
+2. Any game objects you place on the player script will follow the system
+3. The first waypoint you plug in is the first location the player will go through.
+4. You can arrange the order of the waypoint system
+5. You can delete a way point
+6. The path is materialized by lines between each waypoint
+7. The path is updated automatically as you arrange the order of the waypoint system
+
+Plus
+8. The player is a human character
+9. The player follows the way point path just like a regular object
+10. The player has animation: idle, walk, run
+11. The player uses a navmesh system to move
+12. Created a nice environment and add fog 
+
+
+
 ## Exo2
 
 You’ll start by editing this README file to learn how to edit a file in Bitbucket.
