@@ -15,5 +15,6 @@ public class MainScript : MonoBehaviour
     void Update()
     {
         _player.HandleInput();
+        _player.InvokeFollower();
     }
 }

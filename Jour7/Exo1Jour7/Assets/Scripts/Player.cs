@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     private Command _rotate;
     private float _moveVelocity;
     private float _rotateVelocity;
-
     void Start()
     {
         //follow?.Invoke(this.gameObject);//must have the same signature as the delegate
@@ -24,6 +23,24 @@ public class Player : MonoBehaviour
         _rotateVelocity = 150;
     }
 
+    private Stack<GameObject> medicStack = new Stack<GameObject>();
+    public List<Transform> slots = new List<Transform>(4);
+    public void PickedUpItem(GameObject go)
+    {
+        Debug.Log("Medic picked up");
+        for (int i = 0; i < slots.Capacity; i++)
+        {
+            if (slots[i].childCount == 0)
+            {
+                go.transform.SetParent(slots[i]);
+                go.transform.localPosition = new Vector3(0, 4, 0);
+                medicStack.Add(go);
+                break;
+            }
+        }
+    }
+
+   
     public void HandleInput()
     {
         if (Input.GetKey(KeyCode.UpArrow))
@@ -36,11 +53,9 @@ public class Player : MonoBehaviour
             _rotate.Execute(this.transform, this._rotateVelocity, Time.deltaTime);
     }
 
-    void LateUpdate()
+    public void InvokeFollower()
     {
         follow?.Invoke(this.gameObject);//must have the same signature as the delegate
         //follow(this.gameObject);
     }
-    
-    
 }

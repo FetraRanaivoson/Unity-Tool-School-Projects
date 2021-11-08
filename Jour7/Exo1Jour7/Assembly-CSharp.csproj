@@ -52,10 +52,14 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\MainScript.cs" />
+     <Compile Include="Assets\Scripts\Command.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerFollower.cs" />
-     <Compile Include="Assets\Scripts\Command.cs" />
-     <Compile Include="Assets\Scripts\MainScript.cs" />
+     <Compile Include="Assets\Scripts\Stack.cs" />
+     <Compile Include="Assets\Scripts\Events\Event.cs" />
+     <Compile Include="Assets\Scripts\Events\EventListener.cs" />
+     <Compile Include="Assets\Scripts\Medic.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Editor/2020.3.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
