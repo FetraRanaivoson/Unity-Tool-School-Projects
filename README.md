@@ -39,12 +39,21 @@ drag and drop in.
 
 ---
 
-## Exo3
+## Exo 3
 1. Create a casse brique in the inspector
 2. The number of bricks typed in the field is the number of bricks that will be displayed 
 on the inspector
 3. You use the slider Move to move the brick
 4. The slider values are between 0 and 1 and are proportional to the inspector width
+
+## Exo 4
+1. Created an inspector that can spawn an enemy type based on the selection in a drop down list
+2. When you click the button create, the selected enemy will be spawn on the scene
+3. After spawning an enemy, the button create will change directly to Swap
+4. The swap button will swap the last enemy you spawned by the current selected enemy type on the list.
+5. When you click in the inspector but not the button, the swap button will change to create button so that
+you can spawn a new type of enemy again
+6. Created the exact same features but in an editor window: Enemy > Create enemy...
 
 
 ## Exo 7
