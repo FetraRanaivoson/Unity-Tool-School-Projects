@@ -6,16 +6,20 @@ When you're done, you can delete the content in this README and update the file 
 
 ---
 
-## Edit a file
+## Exo2
 
 You’ll start by editing this README file to learn how to edit a file in Bitbucket.
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+1. Can select 2 colors in a custom window name ColorToolWindow
+2. First color is for painting and second color is for erasing
+3. The display is a n * m grid of colors
+4. Each row is represented by a box with a random color just like a pixel
+5. When you customize the number of rows and columns, the grid will be updated
+6. You can fill each boxes with the same color by the Fill All button. The paint color is the one that
+will be used
+7. You can drag and drop any game objects to the output renderer
+8. When you click save to object, the texture represented by the colored grid will be applied to the object you
+drag and drop in.
 
 ---
 
