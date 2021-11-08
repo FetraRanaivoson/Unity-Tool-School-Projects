@@ -26,7 +26,7 @@ public class PlayerFollower : MonoBehaviour
 
     void ExecuteFollow(GameObject player) //Will be executed after "follow" event is called
     {
-        Debug.Log("Follower is now following " + player.name);
+        //Debug.Log("Follower is now following " + player.name);
         Vector3 direction = player.transform.position - this.transform.position;
         this.transform.rotation = Quaternion.Slerp( this.transform.rotation,
             Quaternion.LookRotation(direction), _lookAtVelocity * Time.deltaTime);

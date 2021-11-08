@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6877277936021663507}
   - component: {fileID: 8351450324437155577}
   - component: {fileID: 7137634357242258749}
+  - component: {fileID: 4617214875629533022}
   m_Layer: 0
   m_Name: Medic
   m_TagString: Untagged
@@ -109,3 +110,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickedUp: {fileID: 11400000, guid: 880a1d5ec14c20e4fb72d4bfd8cc6ae8, type: 2}
+--- !u!114 &4617214875629533022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008359435333455168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab82a35d5c6e0447b1f18babd887e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gEvent: {fileID: 11400000, guid: 8106f5e0be1c9f746bd2105c4d376589, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7137634357242258749}
+        m_TargetAssemblyTypeName: Medic, Assembly-CSharp
+        m_MethodName: ThrownUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
