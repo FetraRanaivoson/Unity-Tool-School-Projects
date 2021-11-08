@@ -24,9 +24,12 @@ drag and drop in.
 ---
 
 ## Exo3
+1. Create a casse brique in the inspector
+2. The number of bricks typed in the field is the number of bricks that will be displayed 
+on the inspector
+3. You use the slider Move to move the brick
+4. The slider values are between 0 and 1 and are proportional to the inspector width
 
-Link to submary:
-[Exo3.txt](./Jour3/CasseBrique/Readme.txt) test link
 
 ## Exo 7
 1. DELEGATE: Create an object player and an object player follower. As you move the player, the follower is following you using a delegate event system
