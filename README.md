@@ -55,6 +55,25 @@ on the inspector
 you can spawn a new type of enemy again
 6. Created the exact same features but in an editor window: Enemy > Create enemy...
 
+## Exo 5
+1. You can create a magic card by right click > create > magic card > create
+2. Created a magic card creator window
+3. You can set up: card name, description, mana cost, card background, the image to display on the card
+and the card type (the 5 elements)
+4. Anything you typed in will be displayed on the card preview are
+7. When you click on create new card, a new scriptable objects will be created based on the informations you
+provide in and will be added to the right side
+8. The right side displays all the existing scriptable objects you have
+
+## Exo 6
+1. Create a platform with many players (sphere game objects)
+2. Their colors will be randomized on the start of the game
+3. They will have random speed and random direction
+4. Their rigid body will be applied a force
+5. When you click save, all players data will be saved onto a json file
+6. When you click load, all players data will be retrieved so the players
+will be back to their original state at the time of saving
+7. The data retrieved are their name, position, rigid body's velocity and colors
 
 ## Exo 7
 1. DELEGATE: Create an object player and an object player follower. As you move the player, the follower is following you using a delegate event system
