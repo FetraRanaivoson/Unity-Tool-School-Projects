@@ -34,6 +34,7 @@ Link to submary:
 3. STACK LIFO: The player have four free slots that can carry medicine object. When you go the medicine location, it will be placed on a free slot on your left.
 When you press T, the last medicine you have grabbed is the first one to be thrown away from you (LIFO: Last In First Out)
 4. You can't grab more than four medicines
+5. Pickup and carry is using an observer design pattern: the player is aware of the existence of the medicine item (pickup), the medicine is aware of the player (throw)
 
 
 
