@@ -23,7 +23,10 @@ drag and drop in.
 
 ---
 
-## Create a file
+## Exo3
+
+Link to submary:
+[Exo3.txt](./Jour3/CasseBrique/Readme.txt) test link
 
 Next, you’ll add a new file to this repository.
 
