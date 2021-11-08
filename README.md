@@ -28,6 +28,23 @@ drag and drop in.
 Link to submary:
 [Exo3.txt](./Jour3/CasseBrique/Readme.txt) test link
 
+## Exo 7
+1. DELEGATE: Create an object player and an object player follower. As you move the player, the follower is following you using a delegate event system
+2. You can move / rotate the player using the arrow directions of the keyboard
+3. STACK LIFO: The player have four free slots that can carry medicine object. When you go the medicine location, it will be placed on a free slot on your left.
+When you press T, the last medicine you have grabbed is the first one to be thrown away from you (LIFO: Last In First Out)
+4. You can't grab more than four medicines
+
+
+
+
+
+
+
+
+
+
+
 Next, you’ll add a new file to this repository.
 
 1. Click the **New file** button at the top of the **Source** page.
