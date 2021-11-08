@@ -14,8 +14,6 @@ When you're done, you can delete the content in this README and update the file 
 5. You can delete a way point
 6. The path is materialized by lines between each waypoint
 7. The path is updated automatically as you arrange the order of the waypoint system
-
-Plus
 8. The player is a human character
 9. The player follows the way point path just like a regular object
 10. The player has animation: idle, walk, run
