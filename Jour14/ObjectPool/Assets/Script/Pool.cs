@@ -19,10 +19,7 @@ public class Pool : MonoBehaviour
     private void Awake()
     {
         PoolInstance = this;
-    }
-    
-    void Start()
-    {
+        
         activeBullets = new List<GameObject>();
         foreach (PoolBullet inactiveBullet in inactiveBullets)
         {
@@ -33,6 +30,25 @@ public class Pool : MonoBehaviour
                 activeBullets.Add(toPull);
             }
         }
+    }
+
+    public int GetAvailableBullets()
+    {
+        int count = 0;
+        foreach (GameObject activeBullet in activeBullets)
+        {
+            if (!activeBullet.activeSelf)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+    
+    void Start()
+    {
+    
     }
 
     public GameObject GetActiveBullets(string tag)

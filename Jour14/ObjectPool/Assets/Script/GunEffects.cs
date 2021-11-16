@@ -5,31 +5,29 @@ using UnityEngine;
 
 public class GunEffects : MonoBehaviour
 {
-    [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
     [SerializeField]
     private AudioClip shot;
     [SerializeField]
     private AudioClip emptyBullet;
 
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
     public void OnShot()
     {
-        audioSource.PlayOneShot(shot);
+        //audioSource.PlayOneShot(shot);
+        _audioSource.clip = shot;
+        _audioSource.Play();
     }
     
     public void OnEmptyBullet()
     {
-        audioSource.PlayOneShot(emptyBullet);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        //audioSource.PlayOneShot(emptyBullet);
+        _audioSource.clip = emptyBullet;
+        _audioSource.Play();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

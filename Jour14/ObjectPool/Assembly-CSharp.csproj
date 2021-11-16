@@ -52,11 +52,17 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\MouseLook.cs" />
      <Compile Include="Assets\Script\GunController.cs" />
-     <Compile Include="Assets\Script\BulletController.cs" />
      <Compile Include="Assets\Script\DestroyBulletOnInvisible.cs" />
-     <Compile Include="Assets\Script\Pool.cs" />
      <Compile Include="Assets\Script\GunEffects.cs" />
+     <Compile Include="Assets\Script\EventListener.cs" />
+     <Compile Include="Assets\Script\Pool.cs" />
+     <Compile Include="Assets\Script\BulletUISpawner.cs" />
+     <Compile Include="Assets\Script\BulletController.cs" />
+     <Compile Include="Assets\Script\Event.cs" />
+     <Compile Include="Assets\Script\CharacterEffects.cs" />
+     <Compile Include="Assets\Script\RandomAudio.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Editor/2020.3.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
