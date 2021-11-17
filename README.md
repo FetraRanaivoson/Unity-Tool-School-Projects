@@ -23,9 +23,6 @@ When you're done, you can delete the content in this README and update the file 
 
 
 ## Exo2
-
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
-
 1. Can select 2 colors in a custom window name ColorToolWindow
 2. First color is for painting and second color is for erasing
 3. The display is a n * m grid of colors
@@ -40,11 +37,19 @@ drag and drop in.
 ---
 
 ## Exo 3
-1. Create a casse brique in the inspector
+1. Created a casse brique in the inspector
 2. The number of bricks typed in the field is the number of bricks that will be displayed 
 on the inspector
 3. You use the slider Move to move the brick
 4. The slider values are between 0 and 1 and are proportional to the inspector width
+
+## Exo 3 FACULTATIF
+1. Created a custom property drawer of a float named Explosion force
+2. The initial force is represented by the y value of an AnimCurve.
+3. The explosion will occur on the start.
+4. A value of 0 will deactivate the explosion, the more the value the more force will be generated to push objects away from the centre of the explosion.
+5. A negative value will pull objects toward the center like a magnet.
+
 
 ## Exo 4
 1. Created an inspector that can spawn an enemy type based on the selection in a drop down list
@@ -62,8 +67,8 @@ you can spawn a new type of enemy again
 and the card type (the 5 elements)
 4. Anything you typed in will be displayed on the card preview are
 7. When you click on create new card, a new scriptable objects will be created based on the informations you
-provide in and will be added to the right side
-8. The right side displays all the existing scriptable objects you have
+provided in and will be added to the right side
+8. The right side displays all the existing scriptable objects you have. When you click on each of them, their informations will be automatically displayed on the left side
 
 ## Exo 6
 1. Create a platform with many players (sphere game objects)
@@ -83,14 +88,49 @@ When you press T, the last medicine you have grabbed is the first one to be thro
 4. You can't grab more than four medicines
 5. Pickup and carry is using an observer design pattern: the player is aware of the existence of the medicine item (pickup), the medicine is aware of the player (throw)
 
+## Exo 8
+1. Added a method to calculate permutation
+
+## Exo9 
+1. Modeled a basic stylized car in blender
+2. Simulated the front and rear lights
+3. Added an hdr image to simulate reflections on the car paint
+
+## Exo10 
+1. Modeled a cube character in blender
+2. Added multiple light sources to the scene
+3. Added some foliages
+
+## Exo11
+1. Modeled a kitchen in blender
+2. Added texture to the table, chairs, carrelage
+3. Added multiple light sources
+3. Added hdr image to simulate reflections 
+ 
+## Exo12 
+1. Modeled a robot character following blueprint
+2. Skinned and rigged the character
+
+## Exo13 
+1. Created a run animation for the robot character following animation blueprint
+2. Cycled the animation
+3. Added multiple light sources
+4. Exported the animation to unity
+
+## Exo14 
+1. Created a FPS game
+2. The player will be inside an alley where there's some mysterious target
+3. The player shoot bullets using the pool factory pattern
+4. 5 bullets will be placed on the inactive list at the beginning of the game. When the player shots one, it will be placed on the active list.
+6. Gun sound will be played on shot
+5. After all bullets are active ie player used all his available bullets, the gun will turn red and empty gun sound will be played instead.
+6. A bullet becomes active if it hits a target or the ground or is invisible from the camera
+7. If the number of active bullet >= 1, the gun will turn to its normal color and the player can shoot again
+8. The number of availaible bullets is displayed on the top left hand side of the screen. It used an observer listener pattern.
 
 
 
-
-
-
-
-
+You’ll start by editing this README file to learn how to edit a file in Bitbucket.
 
 
 Next, you’ll add a new file to this repository.
