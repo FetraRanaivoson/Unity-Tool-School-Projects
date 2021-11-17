@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Directory = UnityEngine.Windows.Directory;
 using Object = System.Object;
@@ -11,23 +10,52 @@ using Object = System.Object;
 
 public class CreateCardEditor : EditorWindow
 {
+    private Texture _texture;
+    private string _cardName;
+    private string _description;
+    private int _manaCost;
+    private Color _bgColor;
+    private Sprite _sprite;
+    private string[] _cardTypesList;
+    
+    private float _labelWidth = 80;
+    private float _labelHeight = 25;
+    private float _fieldWidth = 200;
+    private float _fieldHeight = 20;
+    private float _leftMargin = 20;
+    private float _fieldSpacing = 1.2f;
+    private int _selectedCardIndex = 0;
+    
+    
     [MenuItem("MagicCard / Editor")]
     public static void CreateWindow()
     {
         GetWindow<CreateCardEditor>().Show();
     }
 
-    private string[] _listScriptableCard;
-    private CardScriptable[] a;
-
     private void OnEnable()
     {
         _texture = EditorGUIUtility.whiteTexture;
+        _cardName = "Enter card name";
+        _description = "Enter description";
+        _manaCost = 0;
+        _bgColor = Color.white;
         _cardTypesList = new[] {"Fire", "Wood", "Earth", "Metal", "Water"};
-        _listScriptableCard = GetCardScriptable();
+    }
+    
+    private void OnGUI()
+    {
+        Rect leftArea = LayoutUtil.GetRect(position, 0, 0, 4, 12);
+        DrawLeftArea(leftArea);
+
+        Rect rightArea = LayoutUtil.GetRect(position, 4, 0, 8, 12);
+        DrawRightArea(rightArea);
+
+        Rect previewArea = LayoutUtil.GetRect(leftArea, 1, 4, 11, 6);
+        DrawCardPreview(previewArea);
     }
 
-    private string[] GetCardScriptable()
+    private string[] GetCardScriptableFileName()
     {
         List<string> card = new List<string>();
         string[] temp = System.IO.Directory.GetFiles("Assets/Datas");
@@ -38,38 +66,36 @@ public class CreateCardEditor : EditorWindow
                 card.Add(file.Split('/')[1]);
             }
         }
-
         return card.ToArray();
     }
 
-    private Texture _texture;
-    private string _cardName = "Enter card name";
-    private string _description = "Enter description";
-    private int _manaCost = 0;
-    private Color _bgColor = Color.red;
-    private Sprite _sprite;
-
-    private void OnGUI()
+    private CardScriptable[] GetAllCards()
     {
-        Rect leftArea = LayoutUtil.GetRect(position, 0, 0, 4, 12);
-        DrawLeftArea(leftArea);
+        //  Get all the files
+        string[] files = AssetDatabase.FindAssets("", new[] {"Assets/Datas"});
+        foreach (string file in files)
+        {
+            AssetDatabase.GUIDToAssetPath(file);
+        }
 
-        Rect rightArea = LayoutUtil.GetRect(position, 4, 0, 8, 12);
-        DrawRightArea(rightArea);
+        //  Convert them to just the file name
+        string[] convertedFiles = new string [files.Length];
+        for (int i = 0; i < convertedFiles.Length; i++)
+        {
+            convertedFiles[i] = AssetDatabase.GUIDToAssetPath(files[i]);
+            convertedFiles[i] = convertedFiles[i].Split('/')[2]/*.Split('.')[0]*/;
+        }
 
-        Rect previewArea = LayoutUtil.GetRect(leftArea, 1, 4, 11, 6);
-        DrawCard(previewArea);
+        //  Load each .assets, the scriptable cards
+        CardScriptable[] allCardAssets = new CardScriptable[convertedFiles.Length]; 
+        for (int i = 0; i < allCardAssets.Length; i++)
+        {
+            allCardAssets[i] =  AssetDatabase.LoadAssetAtPath(Path.Combine("Assets", "Datas", convertedFiles[i]), 
+                typeof(Object)) as CardScriptable;
+        }
+        
+        return allCardAssets;
     }
-
-
-    private float _labelWidth = 80;
-    private float _labelHeight = 25;
-    private float _fieldWidth = 200;
-    private float _fieldHeight = 20;
-    private float _leftMargin = 20;
-    private float _fieldSpacing = 1.2f;
-    private int _selectedCardIndex = 0;
-    private string[] _cardTypesList = new string[5];
 
     private void DrawLeftArea(Rect leftAreaRect)
     {
@@ -106,44 +132,109 @@ public class CreateCardEditor : EditorWindow
             new Rect(leftAreaRect.width / 2 - leftAreaRect.width / 4, position.height - 50, leftAreaRect.width / 2,
                 leftAreaRect.height / 20), "Create New Card"))
         {
-            CardScriptable cardAsset = ScriptableObject.CreateInstance<CardScriptable>();
-            cardAsset.cardName = _cardName;
-            cardAsset.description = _description;
-            cardAsset.manaCost = _manaCost;
+            CardScriptable cs = ScriptableObject.CreateInstance<CardScriptable>();
+            cs.cardName = _cardName;
+            cs.description = _description;
+            cs.manaCost = _manaCost;
+            cs.sprite = _sprite;
+            cs.backgroundColor = _bgColor;
             switch (_selectedCardIndex)
             {
                 case 0:
-                    cardAsset.manaType = CardType.Fire;
+                    cs.manaType = CardType.Fire;
                     break;
                 case 1:
-                    cardAsset.manaType = CardType.Wood;
+                    cs.manaType = CardType.Wood;
                     break;
                 case 2:
-                    cardAsset.manaType = CardType.Earth;
+                    cs.manaType = CardType.Earth;
                     break;
                 case 3:
-                    cardAsset.manaType = CardType.Metal;
+                    cs.manaType = CardType.Metal;
                     break;
                 case 4:
-                    cardAsset.manaType = CardType.Water;
+                    cs.manaType = CardType.Water;
                     break;
             }
 
-            cardAsset.backgroundColor = _bgColor;
             if (!Directory.Exists(Path.Combine("Assets", "Datas")))
             {
                 Directory.CreateDirectory(Path.Combine("Assets", "Datas"));
             }
 
             //AssetDatabase.CreateAsset(cardAsset, "Assets/Datas/" + _cardName + ".asset");
-            AssetDatabase.CreateAsset(cardAsset, Path.Combine("Assets", "Datas", _cardName + ".asset"));
+            AssetDatabase.CreateAsset(cs, Path.Combine("Assets", "Datas", _cardName + ".asset"));
             AssetDatabase.SaveAssets();
         }
+        GUILayout.EndArea();
+    }
+    
+    private void DrawRightArea(Rect rightArea)
+    {
+        GUILayout.BeginArea(rightArea);
+        CardScriptable [] allCards = GetAllCards();
+        
+        for (int i = 0; i < allCards.Length; i++)
+        {
+            if (GUI.Button(LayoutUtil.GetRect(rightArea, 1, 1 + i * 1, 6, 1),
+                allCards[i].cardName))
+            {
+                //Get all the information
+                CardScriptable cs = CreateInstance<CardScriptable>();
+                cs.name = allCards[i].cardName;
+                cs.description = allCards[i].description;
+                cs.manaCost = allCards[i].manaCost;
+                cs.backgroundColor = allCards[i].backgroundColor;
+                cs.sprite = allCards[i].sprite;
+                cs.manaType = allCards[i].manaType;
+
+                //Display the information
+                _cardName = cs.name;
+                _description = cs.description;
+                _manaCost = cs.manaCost;
+                _bgColor = cs.backgroundColor;
+                _sprite = cs.sprite;
+                switch (cs.manaType)
+                {
+                    case CardType.Fire:
+                        _selectedCardIndex = 0;
+                        break;
+                    case CardType.Wood:
+                        _selectedCardIndex = 1;
+                        break;
+                    case CardType.Earth:
+                        _selectedCardIndex = 2;
+                        break;
+                    case CardType.Metal:
+                        _selectedCardIndex = 3;
+                        break;
+                    case CardType.Water:
+                        _selectedCardIndex = 4;
+                        break;
+                }
+            }
+        }
+
+        // //Card placer 1
+        // SetColors(Color.white, Color.white);
+        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 1, 4, 4), _texture);
+        //
+        // //Card placer 2
+        // SetColors(Color.white, Color.white);
+        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 6, 1, 4, 4), _texture);
+        //
+        // //Card placer 3
+        // SetColors(Color.white, Color.white);
+        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 6, 4, 4), _texture);
+        //
+        // //Card placer 4
+        // SetColors(Color.white, Color.white);
+        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 6, 6, 4, 4), _texture);
 
         GUILayout.EndArea();
     }
 
-    private void DrawCard(Rect previewRect)
+    private void DrawCardPreview(Rect previewRect)
     {
         GUILayout.BeginArea(previewRect);
         //Bg
@@ -186,14 +277,12 @@ public class CreateCardEditor : EditorWindow
             new Rect(labelPosition.x + labelPosition.width, labelPosition.y, _fieldWidth, _fieldHeight),
             sprite, typeof(Sprite), true) as Sprite;
     }
-
     private void CreateColorField(Rect labelPosition, string labelName, ref Color bgColor)
     {
         GUI.Label(labelPosition, new GUIContent(labelName));
         bgColor = EditorGUI.ColorField(
             new Rect(labelPosition.x + labelPosition.width, labelPosition.y, _fieldWidth, _fieldHeight), bgColor);
     }
-
     private void CreateTextField(Rect labelPosition, string labelName, ref string fieldContent)
     {
         GUI.Label(labelPosition, new GUIContent(labelName));
@@ -202,7 +291,6 @@ public class CreateCardEditor : EditorWindow
                 new Rect(labelPosition.x + labelPosition.width, labelPosition.y, _fieldWidth, _fieldHeight),
                 fieldContent);
     }
-
     private void CreateIntField(Rect labelPosition, string labelName, ref int fieldContent)
     {
         GUI.Label(labelPosition, new GUIContent(labelName));
@@ -211,52 +299,6 @@ public class CreateCardEditor : EditorWindow
                 new Rect(labelPosition.x + labelPosition.width, labelPosition.y, _fieldWidth, _fieldHeight),
                 fieldContent);
     }
-
-    private void DrawRightArea(Rect rightArea)
-    {
-        GUILayout.BeginArea(rightArea);
-
-
-        for (int i = 0; i < GetCardScriptable().Length; i++)
-        {
-            if (GUI.Button(LayoutUtil.GetRect(rightArea, 1, 1 + i * 1, 6, 1),
-                GetCardScriptable()[i]))
-            {
-               // Object assets = AssetDatabase.LoadAssetAtPath(Path.Combine("Assets", "Datas"), typeof(Asset));
-            //     _texture  ;
-            //     _cardName = "Enter card name";
-            //     _description = "Enter description";
-            //     _manaCost = 0;
-            //     _bgColor = Color.red;
-            //     _sprite ;
-            }
-        }
-
-        // //Card placer 1
-        // SetColors(Color.white, Color.white);
-        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 1, 4, 4), _texture);
-        //
-        // //Card placer 2
-        // SetColors(Color.white, Color.white);
-        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 6, 1, 4, 4), _texture);
-        //
-        // //Card placer 3
-        // SetColors(Color.white, Color.white);
-        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 1, 6, 4, 4), _texture);
-        //
-        // //Card placer 4
-        // SetColors(Color.white, Color.white);
-        // GUI.DrawTexture(LayoutUtil.GetRect(rightArea, 6, 6, 4, 4), _texture);
-
-        GUILayout.EndArea();
-    }
-
-
-    private void AddSpace(float pixel)
-    {
-        GUILayout.Space(pixel);
-    }
-
     private void SetColors(Color background, Color font)
     {
         GUI.backgroundColor = background;

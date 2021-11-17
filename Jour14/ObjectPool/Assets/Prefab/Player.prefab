@@ -57,7 +57,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 107.8
+  far clip plane: 118.9
   field of view: 68
   orthographic: 0
   orthographic size: 5
@@ -244,13 +244,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 0.2
+  m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.5, z: -0.27}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &56764524027634984
 MonoBehaviour:
   m_ObjectHideFlags: 0

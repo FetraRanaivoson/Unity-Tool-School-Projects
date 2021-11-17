@@ -660,6 +660,12 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/J05 Tools/Travaux/420_j05_tools_octobre21_fetra/Jour7/Exo1Jour7/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="com.unity.cinemachine.editor">
+ <HintPath>C:/J05 Tools/Travaux/420_j05_tools_octobre21_fetra/Jour7/Exo1Jour7/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Cinemachine">
+ <HintPath>C:/J05 Tools/Travaux/420_j05_tools_octobre21_fetra/Jour7/Exo1Jour7/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
